@@ -914,6 +914,7 @@ export default class VideoPlayer extends Component {
                     { width: this.state.volumeTrackWidth }
                 ]}/>
                 <View
+                    collapsable={false}
                     style={[
                         styles.volume.handle,
                         { left: this.state.volumePosition }
@@ -995,6 +996,7 @@ export default class VideoPlayer extends Component {
                     ]}/>
                 </View>
                 <View
+                    collapsable={false}
                     style={[
                         styles.seekbar.handle,
                         { left: this.state.seekerPosition }
@@ -1325,7 +1327,7 @@ const styles = {
         },
         handle: {
             position: 'absolute',
-            marginLeft: -7,
+            marginLeft: -14,
             height: 28,
             width: 28,
         },
