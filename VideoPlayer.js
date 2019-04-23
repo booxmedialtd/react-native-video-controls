@@ -300,7 +300,7 @@ export default class VideoPlayer extends Component {
     /**
      * Reset the timer completely
      */
-    resetControlTimeout() {
+    resetControlTimeout = () => {
         this.clearControlTimeout();
         this.setControlTimeout();
     }
@@ -828,7 +828,7 @@ export default class VideoPlayer extends Component {
                 activeOpacity={ 0.3 }
                 onPress={()=>{
                     this.resetControlTimeout();
-                    callback();
+                    callback && callback();
                 }}
                 style={[
                     styles.controls.control,
@@ -844,9 +844,7 @@ export default class VideoPlayer extends Component {
      * Renders an empty control, used to disable a control without breaking the view layout.
      */
     renderNullControl() {
-        return (
-            <View style={[ styles.controls.control ]} />
-        );
+        return <View />;
     }
 
     /**
@@ -854,10 +852,13 @@ export default class VideoPlayer extends Component {
      * view and spaces them out.
      */
     renderTopControls() {
+        const { topBarCustButton } = this.props;
 
         const backControl = this.props.disableBack ? this.renderNullControl() : this.renderBack();
         const volumeControl = this.props.disableVolume ? this.renderNullControl() : this.renderVolume();
         const fullscreenControl = this.props.disableFullscreen ? this.renderNullControl() : this.renderFullscreen();
+        const custButton = topBarCustButton ?
+          this.renderCustButton(topBarCustButton) : this.renderNullControl();
 
         return(
             <Animated.View style={[
@@ -874,12 +875,24 @@ export default class VideoPlayer extends Component {
                     <View style={ styles.controls.topControlGroup }>
                         { backControl }
                         <View style={ styles.controls.pullRight }>
+                            { custButton }
                             { volumeControl }
                             { fullscreenControl }
                         </View>
                     </View>
                 </ImageBackground>
             </Animated.View>
+        );
+    }
+
+    /**
+     * Custom button control
+     */
+    renderCustButton(button) {
+        return (
+            <TouchableWithoutFeedback onPress={this.resetControlTimeout}>
+                {button}
+            </TouchableWithoutFeedback>
         );
     }
 
